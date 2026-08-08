@@ -21,7 +21,7 @@ The goal was to simulate an end-to-end data pipeline the way it would exist in a
 **Gold Layer** — Business-ready star schema, built as views on top of Silver:
 - `gold.dim_customers`
 - `gold.dim_products`
-- `gold.fact_sales
+- `gold.fact_sales`
 
 This is also where data modeling, EDA, and business analysis all took place — including foreign key integrity checks to validate the fact-to-dimension relationships before trusting the model for analysis.
 
