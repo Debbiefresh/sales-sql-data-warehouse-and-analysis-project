@@ -11,7 +11,7 @@ The goal was to simulate an end-to-end data pipeline the way it would exist in a
 
 **Bronze Layer** — Raw data, loaded as-is from source CSV files (ERP & CRM -style customer, product, and sales data) via `BULK INSERT`. No transformations applied — this layer preserves an exact copy of the source for traceability.
 
-**Silver Layer** — Cleaned and standardized data. A few include:
+**Silver Layer** — Cleaned and standardized data. A few actions done are:
 - Removing duplicates (using `ROW_NUMBER()` to keep the most recent/valid record)
 - Standardizing categorical values (e.g., gender, marital status)
 - Handling missing values (`COALESCE`)
