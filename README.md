@@ -21,7 +21,7 @@ The goal was to simulate an end-to-end data pipeline the way it would exist in a
 **Gold Layer** — Business-ready star schema, built as views on top of Silver:
 - `gold.dim_customers`
 - `gold.dim_products`
-- `gold.fact_sale`
+- `gold.fact_sales
 
 This is also where data modeling, EDA, and business analysis all took place — including foreign key integrity checks to validate the fact-to-dimension relationships before trusting the model for analysis.
 
@@ -49,14 +49,22 @@ This is also where data modeling, EDA, and business analysis all took place — 
 
 ## 📂 Repository Structure
 ```
-├── scripts/
-│   ├── bronze/         -- Raw data load scripts
-│   ├── silver/         -- Cleaning & transformation scripts
-│   └── gold/            -- Star schema views
-├── analysis/
-│   └── business_questions.sql
+├── datasets/
+│   ├── source_crm/          -- Raw CRM source files
+│   └── source_erp/          -- Raw ERP source files
 ├── docs/
-│   └── data_model_diagram.png
+│   ├── data_flow_diagram.png
+│   ├── data_integration.png
+│   ├── data_model_diagram.png
+│   └── etl_pipeline_overview.png
+├── scripts/
+│   ├── bronze/               -- Raw data load scripts
+│   ├── silver/                -- Cleaning & transformation scripts
+│   ├── gold/                 -- Star schema views
+│   ├── analysis/            -- Business question / analysis scripts
+│   └── eda/                   -- Exploratory data analysis scripts
+├── tests/
+├── LICENSE
 └── README.md
 ```
 
