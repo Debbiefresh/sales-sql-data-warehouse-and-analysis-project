@@ -82,3 +82,10 @@ This is also where data modeling, EDA, and business analysis all took place — 
 I'm actively building my portfolio as I transition into a Data Analyst role, with a focus on **e-commerce and sales analytics**. If you'd like to connect, share feedback, or discuss opportunities, feel free to reach out on LinkedIn:
 
 **🔗 [Connect with me on LinkedIn](https://www.linkedin.com/in/deborah-obasi-47b0751a4/)**
+
+
+---
+
+🙏 Acknowledgment
+
+A huge thanks to Baraa for the guidance and teaching style that shaped how I approached this project. The clarity and structure behind the Medallion Architecture concepts taught made this build possible, and I'm grateful for the foundation it gave me as I continue growing in data analytics and engineering.
