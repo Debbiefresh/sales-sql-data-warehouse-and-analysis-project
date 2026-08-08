@@ -1,0 +1,18 @@
+-- #4 Proportional Analysis (Part-to-Whole)
+
+-- Q1: which category contributes the most to the overall sales
+
+WITH category_table AS (
+            SELECT p.category AS category,
+                   SUM(s.sales) AS total_sales
+            FROM sale s
+            JOIN products p
+            ON s.product_key = p.product_key
+            GROUP BY p.category
+)
+SELECT category,
+       total_sales,
+       SUM(total_sales) OVER () AS overall_sales,
+       CONCAT(ROUND(CAST(total_sales AS FLOAT) / SUM(total_sales) OVER () * 100, 2), '%') AS pct_of_sales
+FROM category_table
+ORDER BY pct_of_sales DESC;
