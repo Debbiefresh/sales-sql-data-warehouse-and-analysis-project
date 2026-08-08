@@ -36,12 +36,11 @@ This is also where data modeling, EDA, and business analysis all took place — 
 
 ---
 
-## 📈 Key Analysis Performed
-- Total customers who placed orders
-- Customers with the fewest/most orders
+## 📈 A Few Key Analysis Performed
+- Sales Performance
 - Monthly sales trends (running totals & moving averages)
-- Percentage of total sales by product category
-- Customer lifespan and order recency
+- Category Distribution in overall sales
+- Customer Segmentation
 - Product performance aggregation (total sales, total orders, average selling price)
 
 
