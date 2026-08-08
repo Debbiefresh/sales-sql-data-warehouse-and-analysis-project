@@ -1,0 +1,56 @@
+-- #5 Data Segmentation Analysis (Grouping by assigning a range)
+
+-- Q1: segment products into cost ranges and count how many products
+-- fall into each segment
+
+WITH product_segment AS (
+            SELECT product_key,
+                   product_name,
+                   product_cost,
+                   CASE
+                        WHEN product_cost < 100                THEN 'Below 100'
+                        WHEN product_cost BETWEEN 100 AND 500  THEN '100-500'
+                        WHEN product_cost BETWEEN 500 AND 1000 THEN '500-1000'
+                        ELSE 'Above 1000'
+                   END                      AS pr_cost_range
+            FROM products
+)
+SELECT pr_cost_range,
+       COUNT(product_key) AS num_of_product     
+FROM product_segment
+GROUP BY pr_cost_range
+ORDER BY pr_cost_range DESC;
+
+
+-- Q2: segment customers into VIP, Regular and New based on the following conditions:
+-- customers that have spent at least $5000 and have a lifespan of at least 12 months are VIPs
+-- customers that have spent at most and less $5000 and have a lifespan of less than and is equal to 12 months are Regulars
+-- customers that have spent less than $5000 and have a lifespan of less than 12 months are New
+
+
+WITH customer_segment AS (
+            SELECT c.customer_key    AS customer_key,
+                   SUM(s.sales)      AS total_spend,
+                   MIN(s.order_date) AS first_order,
+                   MAX(s.order_date) AS last_order,
+                   DATEDIFF(month, MIN(s.order_date), MAX(s.order_date)) AS lifespan
+            FROM sale s
+            LEFT JOIN customers c
+            ON s.customer_key = c.customer_key
+            GROUP BY c.customer_key
+),
+customer_profile AS (
+    SELECT customer_key,
+           total_spend,
+           lifespan,
+           CASE
+                WHEN lifespan >= 12 AND total_spend > 5000 THEN 'VIP'
+                WHEN lifespan >= 12 AND total_spend <= 5000 THEN 'Regular'
+                ELSE 'New'
+           END                   AS customer_seg
+    FROM customer_segment)
+SELECT customer_seg,
+       COUNT(customer_key)        AS total_customers
+FROM customer_profile
+GROUP BY customer_seg
+ORDER BY total_customers DESC;
