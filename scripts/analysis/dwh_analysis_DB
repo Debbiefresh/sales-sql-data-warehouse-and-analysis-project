@@ -1,0 +1,173 @@
+/*============================================================================================
+  Create a new database in order to insert the gold views into a table. First create database,
+  then schema (analysis), and finally create the ddl for each of the three tables. Insert data
+  into the tables (sale, customers and products) from the gold view.
+  =============================================================================================
+*/
+
+
+CREATE DATABASE DataWarehouseAnalytics;
+
+USE DataWarehouseAnalytics;
+GO
+
+CREATE SCHEMA analysis;
+GO
+
+
+-- Creating the DDL for customers, products and sale tables
+
+-- customer table
+
+IF OBJECT_ID ('customers', 'U') IS NOT NULL
+  DROP TABLE customers;
+CREATE TABLE customers
+(
+	customer_key    INT,
+	customer_id     INT,
+	customer_number NVARCHAR(50),
+	first_name      NVARCHAR(30),
+	last_name       NVARCHAR(30),
+	country         NVARCHAR(50),
+	marital_status  NVARCHAR(20),
+	gender          NVARCHAR(20),
+	birth_date      DATE,
+	create_date     DATE,
+	dwh_date        DATETIME2 DEFAULT GETDATE()
+); 
+
+
+-- product table
+
+IF OBJECT_ID ('products', 'U') IS NOT NULL
+  DROP TABLE products;
+CREATE TABLE products
+(
+	product_key      INT,
+	product_id       INT,
+	product_number   NVARCHAR(50),
+	product_name     NVARCHAR(50),
+	category_id      NVARCHAR(20),
+	category         NVARCHAR(20),
+	subcategory      NVARCHAR(30),
+	maintenance      NVARCHAR(20),
+	product_cost     INT,
+	product_line     NVARCHAR(30),
+	start_date       DATE,
+	dwh_date         DATETIME2 DEFAULT GETDATE()
+); 
+
+
+
+-- sale table
+
+IF OBJECT_ID ('sale', 'U') IS NOT NULL
+  DROP TABLE sale;
+CREATE TABLE sale
+(
+	order_number     NVARCHAR(50),
+	product_key      INT,
+	customer_key     INT,
+	order_date       DATE,
+	ship_date        DATE,
+	due_date         DATE,
+	quantity         INT,
+	price            INT,
+	sales            INT,
+	dwh_date         DATETIME2 DEFAULT GETDATE()
+); 
+
+
+
+-- Inserting data from Data warehouse view (gold layer) into each tables
+-- Truncate the table first before insertion
+
+
+TRUNCATE TABLE customers;
+GO
+
+INSERT INTO customers (	
+	customer_key,
+	customer_id,
+	customer_number,
+	first_name,
+	last_name,
+	country,
+	marital_status,
+	gender,
+	birth_date,
+	create_date
+)
+
+SELECT
+	 customer_key,
+	 customer_id,
+	 customer_number,
+	 first_name,
+	 last_name,
+	 country,
+	 marital_status,
+	 gender,
+	 birth_date,
+	 create_date
+FROM DataWarehouse.gold.dim_customers;
+
+
+TRUNCATE TABLE products;
+GO
+
+INSERT INTO products (
+    product_key,
+	product_id,
+	product_number,
+	product_name,
+	category_id,
+	category,
+	subcategory,
+	maintenance,
+	product_cost,
+	product_line,
+	start_date
+)
+
+SELECT
+    product_key,
+	product_id,
+	product_number,
+	product_name,
+	category_id,
+	category,
+	subcategory,
+	maintenance,
+	product_cost,
+	product_line,
+	start_date
+FROM DataWarehouse.gold.dim_products;
+
+
+TRUNCATE TABLE sale;
+GO
+
+INSERT INTO sale (
+    order_number,
+	product_key,
+	customer_key,
+	order_date,
+	ship_date,
+	due_date,
+	quantity,
+	price,
+	sales
+)
+
+SELECT
+    order_number,
+	product_key,
+	customer_key,
+	order_date,
+	ship_date,
+	due_date,
+	quantity,
+	price,
+	sales
+FROM DataWarehouse.gold.fact_sales;
